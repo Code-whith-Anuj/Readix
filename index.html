@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Readix: Auto-Scrolling Text Reader</title>
+    <meta name="description" content="Readix is the ultimate auto-reading experience. Just like watching a short video, Readix automatically scrolls your text for a hands-free reading experience.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Readix: Auto-Scrolling Text Reader">
+    <meta property="og:description" content="Experience hands-free reading with our ultra-smooth auto-scroll technology. Perfect for long articles and captivating stories.">
+    <meta property="og:image" content="./assets/hero.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Readix: Auto-Scrolling Text Reader">
+    <meta property="twitter:description" content="Experience hands-free reading with our ultra-smooth auto-scroll technology. Perfect for long articles and captivating stories.">
+    <meta property="twitter:image" content="./assets/hero.png">
+    <link rel="icon" type="image/png" href="./assets/icone.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #01875f;
+            --primary-hover: #00a273;
+            --text-main: #202124;
+            --text-secondary: #5f6368;
+            --bg-light: #ffffff;
+            --bg-gray: #f8f9fa;
+            --border-color: #dadce0;
+            --max-width: 1200px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Header --- */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 16px 24px;
+            transition: var(--transition);
+        }
+
+        .header-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 80px 24px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 60px 24px;
+                gap: 40px;
+            }
+        }
+
+        .hero-content h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 44px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .meta-tags {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 968px) {
+            .meta-tags {
+                justify-content: center;
+            }
+        }
+
+        .meta-tag {
+            background: var(--bg-gray);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .btn-download {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 16px 48px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-download:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        /* --- Screenshots Section --- */
+        .screenshots-section {
+            padding: 80px 0;
+            background-color: var(--bg-gray);
+        }
+
+        .section-title {
+            max-width: var(--max-width);
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .screenshots-wrapper {
+            overflow-x: auto;
+            padding: 0 24px 20px;
+            display: flex;
+            gap: 20px;
+            scrollbar-width: thin;
+        }
+
+        .screenshots-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .screenshots-wrapper::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+
+        .screenshot-placeholder {
+            width: 280px;
+            aspect-ratio: 402 / 874;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            flex-shrink: 0;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .screenshot-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- About Section --- */
+        .about-section {
+            padding: 100px 24px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-text {
+            font-size: 20px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* --- Features Section --- */
+        .features-section {
+            padding: 100px 24px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            padding: 32px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(1, 135, 95, 0.05);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(1, 135, 95, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 60px 24px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-gray);
+        }
+
+        .footer-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <img src="./assets/icone.png" alt="Readix Logo" width="32" height="32" style="border-radius: 8px;">
+                Readix
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero reveal">
+            <div class="hero-content">
+                <h1 style="display: flex; align-items: center; gap: 12px;">
+                    <img src="./assets/back_R.png" alt="Readix Logo" style="height: 1.8em; width: 1.8em; border-radius: 12px; object-fit: contain;">
+                    <span>Readix: Auto-Scrolling Text Reader</span>
+                </h1>
+                <div class="meta-tags">
+                    <span class="meta-tag">4.8 ★</span>
+                    <span>|</span>
+                    <span class="meta-tag">10K+ Downloads</span>
+                    <span>|</span>
+                    <span class="meta-tag">Rated for 3+</span>
+                </div>
+                <p style="font-size: 18px; color: var(--text-secondary); margin-bottom: 40px;">
+                    Experience hands-free reading with our ultra-smooth auto-scroll technology. Perfect for long articles and captivating stories.
+                </p>
+                <a href="./apk/Readix.apk" class="btn-download" download="Readix.apk">Download App</a>
+            </div>
+            <div class="hero-image-container">
+                <img src="./assets/hero.png" alt="Readix Hero" class="hero-image">
+            </div>
+        </section>
+
+        <!-- Screenshots Section -->
+        <section class="screenshots-section">
+            <h2 class="section-title reveal">Screenshots</h2>
+            <div class="screenshots-wrapper reveal">
+                <div class="screenshot-placeholder"><img src="./assets/a1.png" alt="Screenshot 1"></div>
+                <div class="screenshot-placeholder"><img src="./assets/a2.png" alt="Screenshot 2"></div>
+                <div class="screenshot-placeholder"><img src="./assets/a3.png" alt="Screenshot 3"></div>
+                <div class="screenshot-placeholder"><img src="./assets/a4.png" alt="Screenshot 4"></div>
+                <div class="screenshot-placeholder"><img src="./assets/a5.png" alt="Screenshot 5"></div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section reveal">
+            <h2 style="margin-bottom: 24px; font-size: 32px;">About This App</h2>
+            <p class="about-text">
+                Readix is the ultimate auto-reading experience. Just like watching a short video, Readix automatically scrolls your text for a hands-free reading experience. Perfect for articles, stories, and documents.
+            </p>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <h2 class="section-title reveal" style="text-align: center; margin-bottom: 60px;">Key Features</h2>
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card reveal">
+                    <div class="feature-icon">▶</div>
+                    <h3>Play/Pause Auto-Scroll</h3>
+                    <p>Sit back and let the app read to you at your pace. Control the flow with a single tap.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="feature-card reveal">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Speed Control</h3>
+                    <p>Easily adjust the scrolling speed from 0.5x to 2.0x to match your reading comfort.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Customizable Appearance</h3>
+                    <p>Change text size and switch between light, dark, and sepia color themes instantly.</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Multilingual Support</h3>
+                    <p>Fully supports Marathi, Telugu, Hindi, Bengali, and English for a native experience.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Support</a>
+            </div>
+            <p class="copyright">&copy; Readix 2026. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Reveal on Scroll Logic
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        window.addEventListener("scroll", reveal);
+        // Initial check
+        reveal();
+
+        // Smooth Button Animation
+        const downloadBtn = document.querySelector('.btn-download');
+        downloadBtn.addEventListener('mousedown', () => {
+            downloadBtn.style.transform = 'scale(0.95)';
+        });
+        downloadBtn.addEventListener('mouseup', () => {
+            downloadBtn.style.transform = 'translateY(-2px) scale(1)';
+        });
+    </script>
+</body>
+</html>
